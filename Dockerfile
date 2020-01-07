@@ -21,7 +21,7 @@ RUN rm /etc/rhsm-host && \
     yum repolist --disablerepo=*
 
 RUN subscription-manager repos \
-        --disable=rhel-7-server-htb-rpms
+        --disable=*
 
 RUN subscription-manager repos \
         --enable=rhel-7-server-rpms \
