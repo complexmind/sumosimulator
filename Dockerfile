@@ -7,6 +7,8 @@ ENV SUMO_VERSION 0.31.0
 ENV SUMO_HOME /usr/local/share/sumo/
 ENV SUMO_USER root
 
+RUN yum-config-manager --enable rhel-7-server-rpms --enable rhel-7-server-rh-common-rpms --enable rhel-7-server-extras-rpms --enable rhel-7-server-optional-rpms
+
 RUN yum -y update
 
 RUN mkdir -p /usr/local/share/cmake3/Modules && \
