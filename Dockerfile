@@ -32,7 +32,7 @@ RUN subscription-manager repos \
         --enable=rhel-7-server-optional-rpms \
         --enable=amq-clients-2-for-rhel-7-server-rpms 
 
-RUN yum-config-manager --enable=epel
+RUN yum-config-manager --enable epel
 
 #RUN yum -y update
 
