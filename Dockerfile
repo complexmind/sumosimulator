@@ -7,7 +7,23 @@ ENV SUMO_VERSION 0.31.0
 ENV SUMO_HOME /usr/local/share/sumo/
 ENV SUMO_USER root
 
-RUN yum-config-manager --enable rhel-7-server-rpms --enable rhel-7-server-rh-common-rpms --enable rhel-7-server-extras-rpms --enable rhel-7-server-optional-rpms
+# Copy entitlements
+COPY ./etc-pki-entitlement /etc/pki/entitlement
+
+# Copy subscription manager configurations
+COPY ./rhsm-conf /etc/rhsm
+COPY ./rhsm-ca /etc/rhsm/ca
+
+# Delete /etc/rhsm-host to use entitlements from the build container
+RUN rm /etc/rhsm-host && \
+    # Initialize /etc/yum.repos.d/redhat.repo
+    # See https://access.redhat.com/solutions/1443553
+    yum repolist --disablerepo=* && \
+    subscription-manager repos \
+        --enable rhel-7-server-rpms \
+        --enable rhel-7-server-rh-common-rpms \
+        --enable rhel-7-server-extras-rpms \
+        --enable rhel-7-server-optional-rpms
 
 RUN yum -y update
 
