@@ -20,22 +20,21 @@ RUN rm /etc/rhsm-host && \
     # See https://access.redhat.com/solutions/1443553
     yum repolist --disablerepo=* && \
     subscription-manager repos \
+        --disable rhel-7-server-htb-rpms \
         --enable rhel-7-server-rpms \
         --enable rhel-7-server-rh-common-rpms \
         --enable rhel-7-server-extras-rpms \
-        --enable rhel-7-server-optional-rpms
+        --enable rhel-7-server-optional-rpms \
+        --enable amq-clients-2-for-rhel-7-server-rpms
 
-RUN yum -y update
+#RUN yum -y update
 
 RUN mkdir -p /usr/local/share/cmake3/Modules && \
     curl -o /usr/local/share/cmake3/Modules/FindProj.cmake https://raw.githubusercontent.com/qgis/QGIS/master/cmake/FindProj.cmake && \
     curl -o /tmp/epel-release-latest-7.noarch.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum -y --disablerepo=rhel-7-server-htb-rpms install /tmp/epel-release-latest-7.noarch.rpm
+    yum -y install /tmp/epel-release-latest-7.noarch.rpm
 
-RUN yum -y \
-        --disablerepo=rhel-7-server-htb-rpms \
-        --enablerepo=rhel-7-server-optional-rpms \
-        install gcc-c++ git glibc xerces-c xerces-c-devel make proj proj-devel cmake3 libxml2 libxml2-devel libcurl libcurl-devel 
+RUN yum -y install gcc-c++ git glibc xerces-c xerces-c-devel make proj proj-devel cmake3 libxml2 libxml2-devel libcurl libcurl-devel 
 
 RUN cd /root && \
     echo "INSTALLING SUMO..." && \
@@ -52,8 +51,7 @@ RUN cd /root && \
     cd /root && \
     rm -rf sumo
 
-RUN yum -y --enablerepo=rhel-7-server-optional-rpms --enablerepo=amq-clients-2-for-rhel-7-server-rpms \
-    install python-qpid-proton
+RUN yum -y install python-qpid-proton
 
 RUN yum clean all
 
