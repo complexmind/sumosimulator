@@ -18,14 +18,17 @@ COPY ./rhsm-ca /etc/rhsm/ca
 RUN rm /etc/rhsm-host && \
     # Initialize /etc/yum.repos.d/redhat.repo
     # See https://access.redhat.com/solutions/1443553
-    yum repolist --disablerepo=* && \
-    subscription-manager repos \
-        --disable rhel-7-server-htb-rpms \
-        --enable rhel-7-server-rpms \
-        --enable rhel-7-server-rh-common-rpms \
-        --enable rhel-7-server-extras-rpms \
-        --enable rhel-7-server-optional-rpms \
-        --enable amq-clients-2-for-rhel-7-server-rpms
+    yum repolist --disablerepo=*
+
+RUN subscription-manager repos \
+        --disable=rhel-7-server-htb-rpms
+
+RUN subscription-manager repos \
+        --enable=rhel-7-server-rpms \
+        --enable=rhel-7-server-rh-common-rpms \
+        --enable=rhel-7-server-extras-rpms \
+        --enable=rhel-7-server-optional-rpms \
+        --enable=amq-clients-2-for-rhel-7-server-rpms
 
 #RUN yum -y update
 
