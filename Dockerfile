@@ -39,6 +39,9 @@ RUN yum -y --enablerepo=rhel-7-server-optional-rpms --enablerepo=amq-clients-2-f
 
 RUN yum clean all
 
+RUN pushd /opt && git clone https://github.com/complexmind/sumosimulator.git && popd
+
 USER 1000
 
+CMD python /opt/sumosimulator/scripts/sumolistener.py
 
