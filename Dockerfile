@@ -23,18 +23,20 @@ RUN rm /etc/rhsm-host && \
 RUN subscription-manager repos \
         --disable=*
 
+RUN curl -o /tmp/epel-release-latest-7.noarch.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum -y install /tmp/epel-release-latest-7.noarch.rpm
+
 RUN subscription-manager repos \
         --enable=rhel-7-server-rpms \
         --enable=rhel-7-server-extras-rpms \
         --enable=rhel-7-server-optional-rpms \
-        --enable=amq-clients-2-for-rhel-7-server-rpms
+        --enable=amq-clients-2-for-rhel-7-server-rpms \
+        --enable=epel
 
 #RUN yum -y update
 
 RUN mkdir -p /usr/local/share/cmake3/Modules && \
-    curl -o /usr/local/share/cmake3/Modules/FindProj.cmake https://raw.githubusercontent.com/qgis/QGIS/master/cmake/FindProj.cmake && \
-    curl -o /tmp/epel-release-latest-7.noarch.rpm https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum -y install /tmp/epel-release-latest-7.noarch.rpm
+    curl -o /usr/local/share/cmake3/Modules/FindProj.cmake https://raw.githubusercontent.com/qgis/QGIS/master/cmake/FindProj.cmake
 
 RUN yum -y install gcc-c++ git glibc xerces-c xerces-c-devel make proj proj-devel cmake3 libxml2 libxml2-devel libcurl libcurl-devel 
 
