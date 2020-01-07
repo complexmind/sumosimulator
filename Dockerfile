@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/rhel7
+FROM registry.access.redhat.com/ubi
 
 MAINTAINER Mark Sutton <msutton@redhat.com>
 LABEL Description="Containerized SUMO (Simulation of Urban MObility)"
